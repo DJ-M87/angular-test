@@ -10,6 +10,7 @@ import { UserDetailsService } from '../service/user-details.service';
 })
 export class UserDetailsComponent implements OnInit {
   user?:EndUser
+  error?:number
 
   constructor(private userService:UserDetailsService) {
    }
@@ -23,10 +24,8 @@ export class UserDetailsComponent implements OnInit {
         this.user = user;
       },
       error: (error) => {
-        console.log(error);
-        
+        this.error = error.status
       }
     })
   }
-
 }

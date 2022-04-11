@@ -37,7 +37,7 @@ describe('UserDetailsFormComponent Field Validation', () => {
 
 
   testCases.filter((testFilter:any) => testFilter.testCase.filterData === 'user').forEach(async (test:any)=> {
-    it(`Test case ${test.testCase.description} as ${test.testCase.testReason} should be "${test.testCase.expectedResult}`, async () => {
+    it(`${test.testCase.description} as ${test.testCase.testReason} should be "${test.testCase.expectedResult}"`, async () => {
       patchData(test.formData, formgroup);
       fixture.detectChanges();
       fixture.whenStable().then(() => {
@@ -47,7 +47,7 @@ describe('UserDetailsFormComponent Field Validation', () => {
   });
 
   testCases.filter((testFilter:any) => testFilter.testCase.filterData === 'address').forEach(async (test:any)=> {
-    it(`Test case ${test.testCase.description} as ${test.testCase.testReason} should be "${test.testCase.expectedResult}`, async () => {
+    it(`${test.testCase.description} as ${test.testCase.testReason} should be "${test.testCase.expectedResult}`, async () => {
       patchData(test.formData, formgroup);
       fixture.detectChanges();
       fixture.whenStable().then(() => {

@@ -31,10 +31,21 @@ describe('HttpClient testing', () => {
       service.addNewUser(user).subscribe((data:EndUser)=> {
       expect(data).toBe(user);
     })
-
     const request = httpMock.expectOne( 'http://fake-url.test/user');
     expect(request.request.method).toBe('POST');
     request.flush(user);
 
   })
+
+  it('Test post new user with error 400 Bad Request',async () => {
+    const message:string = "Could not add new user";
+    service.addNewUser(user).subscribe({
+      error: (error) => {
+        expect(error.status).toEqual(400)
+      }
+    })
+    const request = httpMock.expectOne( 'http://fake-url.test/user');
+    request.flush(message, { status: 400, statusText: 'Bad Request' });
+  })
 });
+
