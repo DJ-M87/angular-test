@@ -1,11 +1,84 @@
-{
-    "firstName" : "Kyle",
-    "lastName" : "Jonson",
-    "address" : {
-        "unit" : "35A",
-        "street" : "Main Ave",
-        "city" : "Brooklyn",
-        "state" : "NY",
-        "zip" : "1234"
+[
+  {
+    "formData": {
+        "user" : {
+          "firstName" : "Kyle",
+        "lastName" : "Jonson",
+        "address" : {
+            "unit" : "35A",
+            "street" : "Main Ave",
+            "city" : "Brooklyn",
+            "state" : "NY",
+            "zip" : "1234"
+        }
+        }
+    },
+    "testCase" : {
+        "description" : "AddNewUser gets service HttpStatus 500 message",
+        "message" : "Something went wrong, the server is down or please check your connection!",
+        "componentKey" : "errorMessage",
+        "firstKey" : "testCase",
+        "secondKey" : "message",
+        "response" : {
+          "status": 500,
+          "statusText": "Server error"
+        },
+        "code": 500
     }
-}
+  },
+  {
+    "formData": {
+        "user" : {
+          "firstName" : "Kyle",
+        "lastName" : "Jonson",
+        "address" : {
+            "unit" : "35A",
+            "street" : "Main Ave",
+            "city" : "Brooklyn",
+            "state" : "NY",
+            "zip" : "1234"
+        }
+        }
+    },
+    "testCase" : {
+        "description" : "AddNewUser gets service HttpStatus 500 code",
+        "message" : "Something went wrong, the server is down or please check your connection!",
+        "componentKey" : "errorCode",
+        "firstKey" : "testCase",
+        "secondKey" : "code",
+        "response" : {
+          "status": 500,
+          "statusText": "Server error"
+        },
+        "code": 500
+    }
+  },
+  {
+    "formData": {
+        "user" : {
+          "firstName" : "Kyle",
+        "lastName" : "Jonson",
+        "address" : {
+            "unit" : "35A",
+            "street" : "Main Ave",
+            "city" : "Brooklyn",
+            "state" : "NY",
+            "zip" : "1234"
+        }
+        }
+    },
+    "testCase" : {
+        "description" : "AddNewUser gets service HttpStatus 200",
+        "message" : "Something went wrong, the server is down or please check your connection!",
+        "componentKey" : "user",
+        "firstKey" : "formData",
+        "secondKey" : "user",
+        "response" : {
+          "status": 200,
+          "statusText": "Ok"
+        },
+        "code": 200
+    }
+  }
+
+]

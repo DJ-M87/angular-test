@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { EndUser } from '../models/end-user';
@@ -19,25 +19,32 @@ export class UserDetailsFormComponent implements OnInit {
 
   profileForm:FormGroup
 
-  @Output() newUserEvent = new EventEmitter<EndUser>();
+
+  @Input() endUser:EndUser = {};
+  @Output() saveUserEvent = new EventEmitter<EndUser>();
 
   constructor(private fb: FormBuilder) {
     this.profileForm = this.generateForm();
    }
 
   ngOnInit(): void {
+    this.updatedForm(this.endUser)
+  }
+
+  updatedForm(endUser:EndUser){
+    this.profileForm.patchValue(endUser);
   }
 
   generateForm() {
     return this.fb.group({
-      firstName: [ '', 
+      firstName: [ '',
       [
         Validators.required,
         Validators.minLength(2),
         Validators.maxLength(50),
         Validators.pattern(this.firstNamePattern)
       ]
-      
+
     ],
       lastName: ['', [
         Validators.required,
@@ -77,7 +84,7 @@ export class UserDetailsFormComponent implements OnInit {
 
   onSubmit() {
     let newUser:EndUser = this.profileForm?.value
-    this.newUserEvent.emit(newUser)
+    this.saveUserEvent.emit(newUser)
   }
 
 }

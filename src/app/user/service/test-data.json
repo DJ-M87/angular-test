@@ -1,11 +1,22 @@
-{
-    "firstName" : "Kyle",
-    "lastName" : "Jonson",
-    "address" : {
-        "unit" : "35A",
-        "street" : "Main Ave",
-        "city" : "Brooklyn",
-        "state" : "NY",
-        "zip" : "1234"
+[
+  {
+    "formData": {
+        "firstName" : "Kyle",
+        "lastName" : "Jonson",
+        "address" : {
+            "unit" : "35A",
+            "street" : "Main Ave",
+            "city" : "Brooklyn",
+            "state" : "NY",
+            "zip" : "1234"
+        }
+    },
+    "testCase" : {
+        "description" : "First Name",
+        "testReason" : "Valid Input",
+        "expectedResult" : true,
+        "queryName" : "firstName",
+        "filterData" : "user"
     }
-}
+  }
+]

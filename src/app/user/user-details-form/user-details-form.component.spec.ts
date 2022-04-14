@@ -4,7 +4,6 @@ import { UserDetailsFormComponent } from './user-details-form.component';
 import testData from './user-details-form-test-data.json'
 import testDataSubmit from './user-details-form-test-data-submit.json'
 
-
 function patchData(data:any, form:FormGroup){
   form.patchValue(data)
 }
@@ -96,14 +95,3 @@ describe('UserDetailsFormComponent Submit Form', () => {
     });
   });
 })
-
-// function setQueryInput(data:any, profileQuery:{[key: string]: HTMLInputElement}){
-//   Object.keys(data).forEach((key) => {
-//     Object.keys(profileQuery).forEach((queryKey) => {
-//       if(key === queryKey){
-//         profileQuery[queryKey].value = data[key]
-//         profileQuery[queryKey].dispatchEvent(new Event('input'));
-//       }
-//     })
-//   })
-// }

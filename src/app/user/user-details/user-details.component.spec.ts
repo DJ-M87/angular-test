@@ -1,25 +1,41 @@
-import { ComponentFixture, TestBed , fakeAsync, tick} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { UserDetailsComponent } from './user-details.component';
 import { By } from '@angular/platform-browser';
-import { EndUser } from '../models/end-user';
-import { UserDetailsService } from '../service/user-details.service';
-import { of } from 'rxjs';
-import testData from './test-data.json'
 import { HttpClientTestingModule, HttpTestingController,  } from '@angular/common/http/testing';
+import { of } from 'rxjs';
+import { environment } from 'src/environments/environment';
+
+import { EndUser } from '../models/end-user';
+import { UserDetailsComponent } from './user-details.component';
+import { UserDetailsService } from '../service/user-details.service';
+import testData from './test-data.json'
+
+function getUser(){
+  return {
+    firstName: 'Johnny',
+    lastName: 'Jonson',
+    address: {
+      unit: '32B',
+      street: '1st Ave',
+      city: 'Brooklyn',
+      state: 'NY',
+      zip: 1234
+    }
+  }
+}
 
 
 describe('UserDetailsComponent', () => {
   let component: UserDetailsComponent;
   let fixture: ComponentFixture<UserDetailsComponent>;
   let userDetailsService: UserDetailsService
-  let user:EndUser = testData;
+  let user:EndUser = getUser()
   let addNewUserStub: jasmine.Spy;
 
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ 
+      declarations: [
         UserDetailsComponent,
       ],
       providers: [
@@ -54,22 +70,22 @@ describe('UserDetailsComponent', () => {
     let addNewUser = spyOn(component, 'addNewUser')
     addNewUserStub.and.callFake(() => {return of(user)});
     const userDetailForm = fixture.debugElement.query(By.css('app-user-details-form'));
-    userDetailForm.triggerEventHandler('newUserEvent', user);
+    userDetailForm.triggerEventHandler('saveUserEvent', user);
     expect(addNewUser).toHaveBeenCalled();
   });
-
-
 })
 
-describe('UserDetailsComponent Handle Error', () => {
+describe('UserDetailsComponent Handle Error New', () => {
   let component: UserDetailsComponent;
   let fixture: ComponentFixture<UserDetailsComponent>;
-  let userDetailsService: UserDetailsService
-  let user:EndUser = testData;
+  let user:EndUser = getUser()
+  let testCase = testData;
   let httpMock: HttpTestingController
+  let userUrl:string = environment.url + environment.user
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ 
+      declarations: [
         UserDetailsComponent,
       ],
       providers: [
@@ -86,24 +102,22 @@ describe('UserDetailsComponent Handle Error', () => {
     fixture = TestBed.createComponent(UserDetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    userDetailsService = fixture.debugElement.injector.get(UserDetailsService);
     httpMock = fixture.debugElement.injector.get(HttpTestingController);
   });
-  
-  it('AddNewUser gets service HttpStatus 200', () => {
-    const userDetailForm = fixture.debugElement.query(By.css('app-user-details-form'));
-    userDetailForm.triggerEventHandler('newUserEvent', user);
-    const request = httpMock.expectOne( 'http://fake-url.test/user');
-    request.flush(user, {status: 200, statusText: 'Ok'});
-    expect(component.user).toEqual(user);
-  });
 
-  it('AddNewUser service returns HttpStatus Error 500', () => {
-    const userDetailForm = fixture.debugElement.query(By.css('app-user-details-form'));
-    userDetailForm.triggerEventHandler('newUserEvent', user);
-    const request = httpMock.expectOne( 'http://fake-url.test/user');
-    request.flush(user, {status: 500, statusText: 'Server error'});
-    expect(component.error).toEqual(500);
-  });
 
+  testCase.forEach((test:any) => {
+    it(`${test.description}`, () => {
+      let componentKey:string = test.testCase.componentKey
+      let firstKey:string = test.testCase.firstKey
+      let secondKey:string = test.testCase.secondKey;
+
+      const userDetailForm = fixture.debugElement.query(By.css('app-user-details-form'));
+      userDetailForm.triggerEventHandler('saveUserEvent', test.formData);
+      const request = httpMock.expectOne(userUrl);
+      request.flush(test[firstKey][secondKey], test.testCase.response);
+
+      expect(component[componentKey as keyof typeof component]).toEqual(test[firstKey][secondKey]);
+    })
+  });
 })

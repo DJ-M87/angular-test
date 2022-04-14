@@ -1,17 +1,19 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { EndUser } from '../models/end-user';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserDetailsService {
-  url:string = 'http://fake-url.test'
+  url:string = environment.url;
   constructor(private http: HttpClient) { }
 
   addNewUser(user:EndUser): Observable<EndUser> {
-    return this.http.post<EndUser>(`${this.url}/user`, user)
+    const userUrl:string = `${this.url}${environment.user}`;
+    return this.http.post<EndUser>(userUrl, user);
   }
 }
